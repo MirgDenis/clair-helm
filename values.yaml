@@ -1,8 +1,6 @@
 expose:
-  type: nodePort
-  tls:
-    enabled: true
-    commonName: "core.harbor.domain"
+  type: LoadBalancer
+
 persistence:
   enabled: true
   resourcePolicy: "keep"
@@ -18,16 +16,19 @@ persistence:
       storageClass: ""
       subPath: ""
       accessMode: ReadWriteOnce
-      size: 1Gi
+      size: 2Gi
+
 imagePullPolicy: IfNotPresent
 imagePullSecrets:
 logLevel: debug
-harborAdminPassword: "Harbor12345"
+
 clair:
   enabled: true
   image:
-    repository: goharbor/clair-photon
-    tag: dev
+    repository: goharbor/clair-photon@sha256
+    tag: a63029aa1aef910892e0e526ce7aecaef63a146aafae9ec7f66efb6adae55a8e
+#    repository: goharbor/clair-photon
+#    tag: dev
   replicas: 1
   httpProxy:
   httpsProxy:
@@ -36,12 +37,15 @@ clair:
   tolerations: []
   affinity: {}
   podAnnotations: {}
+
 database:
   type: internal
   internal:
     image:
-      repository: goharbor/harbor-db
-      tag: dev
+      repository: goharbor/harbor-db@sha256
+      tag: 8521a2ecf12e2e46e66108f79da8ddc4e94c2e1ab01ce99905fc4d5b882986db
+#      repository: goharbor/harbor-db
+#      tag: dev
     password: "changeit"
     nodeSelector: {}
     tolerations: []
