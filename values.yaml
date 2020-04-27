@@ -1,22 +1,18 @@
 expose:
   type: LoadBalancer
+  annotations:
+    service.beta.kubernetes.io/openstack-internal-load-balancer: "true"
 
 persistence:
   enabled: true
   resourcePolicy: "keep"
   persistentVolumeClaim:
-    jobservice:
-      existingClaim: ""
-      storageClass: ""
-      subPath: ""
-      accessMode: ReadWriteOnce
-      size: 1Gi
     database:
       existingClaim: ""
       storageClass: ""
       subPath: ""
       accessMode: ReadWriteOnce
-      size: 2Gi
+      size: 20Gi
 
 imagePullPolicy: IfNotPresent
 imagePullSecrets:
@@ -25,10 +21,8 @@ logLevel: debug
 clair:
   enabled: true
   image:
-    repository: goharbor/clair-photon@sha256
-    tag: a63029aa1aef910892e0e526ce7aecaef63a146aafae9ec7f66efb6adae55a8e
-#    repository: goharbor/clair-photon
-#    tag: dev
+    repository: goharbor/clair-photon 
+    tag: v2.1.0-v1.9.4
   replicas: 1
   httpProxy:
   httpsProxy:
@@ -42,10 +36,8 @@ database:
   type: internal
   internal:
     image:
-      repository: goharbor/harbor-db@sha256
-      tag: 8521a2ecf12e2e46e66108f79da8ddc4e94c2e1ab01ce99905fc4d5b882986db
-#      repository: goharbor/harbor-db
-#      tag: dev
+      repository: goharbor/harbor-db
+      tag: v1.9.4
     password: "changeit"
     nodeSelector: {}
     tolerations: []
